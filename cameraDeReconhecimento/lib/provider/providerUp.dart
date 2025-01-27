@@ -16,10 +16,10 @@ class FotosProvider extends ChangeNotifier {
   /// Função para solicitar permissão da câmera
   Future<void> solicitarPermissaoCamera() async {
     
-    PermissionStatus status = await Permission.camera.status;
+    PermissionStatus status = await Permission.camera.status; //mostrar stutus da camera Ex: dizer se foi aceita ou não
 
     if (status.isDenied) {
-      status = await Permission.camera.request();
+      status = await Permission.camera.request();//ele entrar nas permisões da camera e via manda um request(solicitação) para o usurario 
     }
 
     if (status.isPermanentlyDenied) {
@@ -27,12 +27,13 @@ class FotosProvider extends ChangeNotifier {
     }
 
     if (status.isGranted) {
-      await tirarFotoFunc();
+      await tirarFotoFunc(); //função tirar foto
     }
   }
 
   /// Função para capturar imagem da câmera
   Future<void> tirarFotoFunc() async {
+    
     PermissionStatus status = await Permission.camera.status;
 
     if (status.isGranted) {
