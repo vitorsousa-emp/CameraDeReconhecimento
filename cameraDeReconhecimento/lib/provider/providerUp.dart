@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 
 class FotosProvider extends ChangeNotifier {
   final TextRecognizer textDetector = TextRecognizer(); // Inicializa o detector de texto
-  File? img; //armazena img caputrada 
-  String textoEstraido = ""; //texto estraido da img 
-  final ImagePicker picker = ImagePicker();//permite acessar a camera do dispositivo ou a galeria servindo para capturar e prcessar imagens 
 
+  File? img; //armazena img caputrada
+
+  String textoEstraido = ""; //texto estraido da img 
+
+  final ImagePicker picker = ImagePicker();//permite acessar a camera do dispositivo ou a galeria servindo para capturar e prcessar imagens 
+  
   // Lista para armazenar as imagens e os textos extraídos
   List<Map<String, String>> galeria = [];
 
@@ -24,6 +27,7 @@ class FotosProvider extends ChangeNotifier {
 
     if (status.isPermanentlyDenied) {
       openAppSettings(); // Abre as configurações para ativar manualmente
+
     }
 
     if (status.isGranted) {
@@ -34,18 +38,20 @@ class FotosProvider extends ChangeNotifier {
   /// Função para capturar imagem da câmera
   Future<void> tirarFotoFunc() async {
     
-    PermissionStatus status = await Permission.camera.status;
+    PermissionStatus status = await Permission.camera.status;// pegar status da cemrar 
 
     if (status.isGranted) {
       try {
-        final XFile? imagemCapturada = await picker.pickImage(source: ImageSource.camera);
+        final XFile? imagemCapturada = await picker.pickImage(source: ImageSource.camera); //XFile = formato de img -> picker.pickImage(source image.Source.camera)-> abrir a camera
 
         if (imagemCapturada != null) {
           img = File(imagemCapturada.path);
 
-          // Usar o ML Kit para reconhecer o texto da imagem
-          final inputImage = InputImage.fromFilePath(imagemCapturada.path);
-          final recognizedText = await textDetector.processImage(inputImage); // Chama o método corretamente
+          
+         
+          final inputImage = InputImage.fromFilePath(imagemCapturada.path);//converte o arquivo para um formato compriensivel pro PC extrair o texto
+
+          final recognizedText = await textDetector.processImage(inputImage); //
 
           textoEstraido = recognizedText.text;  // Armazena o texto reconhecido
 
@@ -71,4 +77,6 @@ class FotosProvider extends ChangeNotifier {
     textDetector.close();
     super.dispose();
   }
+
+
 }
