@@ -59,5 +59,6 @@ dependencies:
 
 
 🤝 Contribuindo
-
 Sinta-se à vontade para contribuir! Basta abrir um PR ou relatar problemas na aba Issues. Qualquer feedback é bem-vindo.
+
+Feito por [Vitor de sousa]
