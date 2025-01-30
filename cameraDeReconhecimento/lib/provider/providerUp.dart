@@ -20,9 +20,10 @@ class FotosProvider extends ChangeNotifier {
   Future<void> solicitarPermissaoCamera() async {
     
     PermissionStatus status = await Permission.camera.status; //mostrar stutus da camera Ex: dizer se foi aceita ou não
+    
 
-    if (status.isDenied) {
-      status = await Permission.camera.request();//ele entrar nas permisões da camera e via manda um request(solicitação) para o usurario 
+    if (status.isDenied) { 
+      status = await Permission.camera.request(); //ele entrar nas permisões da camera e via manda um request(solicitação) para o usurario 
     }
 
     if (status.isPermanentlyDenied) {
@@ -70,6 +71,25 @@ class FotosProvider extends ChangeNotifier {
       await solicitarPermissaoCamera(); // Pede permissão e tenta de novo
     }
   }
+
+  Future<void> takeGallery()async{
+    final XFile? imagemCapturada = await picker.pickImage(source: ImageSource.gallery);
+
+    if(imagemCapturada!=null){
+      img = File(imagemCapturada.path);
+      final inputImage = InputImage.fromFilePath(imagemCapturada.path);
+      final recognizedText = await textDetector.processImage(inputImage);
+      textoEstraido = recognizedText.text;
+      galeria.add({"imagem":imagemCapturada.path, 'texto': textoEstraido});
+
+    }else{
+      Text("deu erro ao pegar imagem da galeria");
+    }
+    notifyListeners();
+  }
+
+
+
 
   // Lembre-se de liberar o TextRecognizer quando não for mais necessário
   @override

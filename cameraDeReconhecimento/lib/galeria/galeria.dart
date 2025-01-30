@@ -11,11 +11,11 @@ class GaleriaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var providerFoto = context.watch<FotosProvider>();
 
-    return ScarfoldPadrao (
-      
+    return ScarfoldPadrao(
       child: providerFoto.galeria.isEmpty
           ? Center(child: Text("Nenhuma imagem salva."))
           : ListView.builder(
+
               itemCount: providerFoto.galeria.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
@@ -32,23 +32,22 @@ class GaleriaPage extends StatelessWidget {
                   },
                   child: Card(
                     margin: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.file(
-                          File(providerFoto.galeria[index]['imagem']!),
-                          height: 200,
-                          fit: BoxFit.cover,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            providerFoto.galeria[index]['texto']!,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                File(providerFoto.galeria[index]['imagem']!),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -58,26 +57,54 @@ class GaleriaPage extends StatelessWidget {
   }
 }
 
+
 class DetalheImagem extends StatelessWidget {
   final String imagemPath;
   final String texto;
 
-  DetalheImagem({required this.imagemPath, required this.texto});
+  const DetalheImagem({super.key, required this.imagemPath, required this.texto});
 
   @override
   Widget build(BuildContext context) {
-    return ScarfoldPadrao(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      backgroundColor: Colors.black, // Fundo preto para destacar a imagem
+      body: Stack(
         children: [
-          Image.file(File(imagemPath), height: 300, fit: BoxFit.cover),
-          SizedBox(height: 20),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Text(
-              texto,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Positioned.fill(
+            child: InteractiveViewer( // Permite dar zoom e mover a imagem
+              child: Image.file(
+                File(imagemPath),
+                fit: BoxFit.contain, // Mantém a proporção original sem cortes
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 20,
+            right: 20,
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.black54, // Fundo escuro para melhor leitura
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                texto,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 40,
+            left: 10,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white, size: 30),
+              onPressed: () => Navigator.pop(context),
             ),
           ),
         ],
@@ -85,3 +112,4 @@ class DetalheImagem extends StatelessWidget {
     );
   }
 }
+
