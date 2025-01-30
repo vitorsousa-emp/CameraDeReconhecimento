@@ -19,11 +19,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   
-  @override
+  @override 
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => FotosProvider(),
-      child: MaterialApp(
+      child: MaterialApp( //rotas para fazer a navegação entre as paginas 
         routes: {
           "/": (context) => HomePage(),
           "/galeria": (context) => GaleriaPage(),

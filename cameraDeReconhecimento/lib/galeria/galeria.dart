@@ -12,11 +12,11 @@ class GaleriaPage extends StatelessWidget {
     var providerFoto = context.watch<FotosProvider>();
 
     return ScarfoldPadrao(
-      child: providerFoto.galeria.isEmpty
+      child: providerFoto.galeria.isEmpty // verificação pra ver se a galaria estar vazia ou não 
           ? Center(child: Text("Nenhuma imagem salva."))
           : ListView.builder(
 
-              itemCount: providerFoto.galeria.length,
+              itemCount: providerFoto.galeria.length, // tamanho da listview
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
@@ -30,7 +30,7 @@ class GaleriaPage extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Card(
+                  child: Card( //criação do card
                     margin: EdgeInsets.all(10),
                     child: Center(
                       child: Column(
@@ -39,10 +39,10 @@ class GaleriaPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10),// areendonda bordas da image 
                               child: Image.file(
-                                File(providerFoto.galeria[index]['imagem']!),
-                                fit: BoxFit.contain,
+                                File(providerFoto.galeria[index]['imagem']!),//pega index da foto atual e sua chave no map 
+                                fit: BoxFit.contain,//deixa a foto do tamanho do container
                               ),
                             ),
                           ),
@@ -74,7 +74,7 @@ class DetalheImagem extends StatelessWidget {
             child: InteractiveViewer( // Permite dar zoom e mover a imagem
               child: Image.file(
                 File(imagemPath),
-                fit: BoxFit.contain, // Mantém a proporção original sem cortes
+                fit: BoxFit.contain,
               ),
             ),
           ),

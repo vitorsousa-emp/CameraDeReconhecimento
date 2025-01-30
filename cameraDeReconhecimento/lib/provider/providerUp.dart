@@ -72,6 +72,7 @@ class FotosProvider extends ChangeNotifier {
     }
   }
 
+  //pegaras fotos da galeria
   Future<void> takeGallery()async{
     final XFile? imagemCapturada = await picker.pickImage(source: ImageSource.gallery);
 
